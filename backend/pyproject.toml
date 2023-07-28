@@ -24,14 +24,14 @@ dev = [
 ]
 
 
-[tool.black]  
-target-version = ["py310", "py311"]
+[tool.black]
+target-version = ["py310"] 
 [tool.isort]
 profile = "black"
 
-[flake8] 
+[flake8]
 max-line-length = 88
-extend-ignore = E203
+
 
 [tool.vulture]
 min_confidence = 100
