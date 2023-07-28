@@ -25,7 +25,7 @@ dev = [
 
 
 [tool.black]  
-target-version = ["py310"] 
+target-version = ["py310", "py311"]
 [tool.isort]
 profile = "black"
 
