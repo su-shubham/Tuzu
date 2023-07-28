@@ -1,0 +1,12 @@
+/__pypackages__
+/.mypy_cache
+.pdm.toml
+.pytest_cache
+.venv
+*.pyc
+.ansible-vault 
+secrets.auto.tfvars
+terraform.tfstate 
+*.backup 
+.terraform.lock.hcl 
+.terraform/

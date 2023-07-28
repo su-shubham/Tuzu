@@ -1,0 +1,57 @@
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Shubham", email = "code.shubham.com@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=23.7.0",
+    "isort>=5.12.0",
+    "djhtml>=3.0.6",
+    "mypy>=1.4.1",
+    "flake8>=6.0.0",
+    "bandit>=1.7.5",
+    "vulture>=2.7",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.1",
+]
+
+
+[tool.black]  
+target-version = ["py310"] 
+[tool.isort]
+profile = "black"
+
+[flake8] 
+max-line-length = 88
+extend-ignore = E203
+
+[tool.vulture]
+min_confidence = 100
+
+[tool.pytest.ini_options]
+addopts = "--showlocals"
+asyncio_mode = "auto"
+pythonpath = ["src"]
+
+[tool.pdm.scripts]
+format-black = "black src/ tests/"
+format-djhtml = "djhtml src/backend/templates -t 2 --in-place"
+format-isort = "isort src tests"
+format = {composite = ["format-black", "format-djhtml", "format-isort"]}
+lint-bandit = "bandit -r src/"
+lint-black = "black --check --diff src/ tests/"
+lint-djhtml = "djhtml src/backend/templates -t 2 --check"
+lint-flake8 = "flake8 src/ tests/"
+lint-isort = "isort --check --diff src tests"
+lint-mypy = "mypy src/backend tests"
+lint-vulture = "vulture src"
+lint = {composite = ["lint-bandit", "lint-black", "lint-djhtml", "lint-flake8", "lint-isort", "lint-mypy", "lint-vulture"]}
+test = "pytest tests/"
