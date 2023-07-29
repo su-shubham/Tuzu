@@ -5,11 +5,20 @@ description = ""
 authors = [
     {name = "Shubham", email = "code.shubham.com@gmail.com"},
 ]
-dependencies = []
-requires-python = ">=3.10"
+dependencies = [
+    "quart>=0.18.4",
+    "quart-auth>=0.9.0",
+    "bcrypt>=4.0.1",
+    "zxcvbn>=4.4.28",
+    "itsdangerous>=2.1.2",
+    "quart-rate-limiter>=0.8.0",
+    "quart-db>=0.5.0",
+]
+requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
 
+[tool.pdm]
 [tool.pdm.dev-dependencies]
 dev = [
     "black>=23.7.0",
@@ -21,8 +30,28 @@ dev = [
     "vulture>=2.7",
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.1",
+    "freezegun>=1.2.2",
 ]
 
+
+
+[tool.pdm.scripts]
+start =  {cmd="quart --app src/backend/run.py run --port 5050",env_file="dev.env"}
+format-black = "black src/ tests/"
+format-djhtml = "djhtml src/backend/templates -t 2 --in-place"
+format-isort = "isort src tests"
+format = {composite = ["format-black", "format-djhtml", "format-isort"]}
+lint-bandit = "bandit -r src/"
+lint-black = "black --check --diff src/ tests/"
+lint-djhtml = "djhtml src/backend/templates -t 2 --check"
+lint-flake8 = "flake8 src/ tests/"
+lint-isort = "isort --check --diff src tests"
+lint-mypy = "mypy src/backend tests"
+lint-vulture = "vulture src"
+lint = {composite = ["lint-bandit", "lint-black", "lint-djhtml", "lint-flake8", "lint-isort", "lint-mypy", "lint-vulture"]}
+recreate-db-base = "quart --app src/backend/run.py recreate_db"
+recreate-db = {composite = ["recreate-db-base"], env_file ="dev.env"}
+test = {composite = ["recreate-db-base", "pytest tests/"], env_file = "test.env"}
 
 [tool.black]
 target-version = ["py310"] 
@@ -41,17 +70,3 @@ addopts = "--showlocals"
 asyncio_mode = "auto"
 pythonpath = ["src"]
 
-[tool.pdm.scripts]
-format-black = "black src/ tests/"
-format-djhtml = "djhtml src/backend/templates -t 2 --in-place"
-format-isort = "isort src tests"
-format = {composite = ["format-black", "format-djhtml", "format-isort"]}
-lint-bandit = "bandit -r src/"
-lint-black = "black --check --diff src/ tests/"
-lint-djhtml = "djhtml src/backend/templates -t 2 --check"
-lint-flake8 = "flake8 src/ tests/"
-lint-isort = "isort --check --diff src tests"
-lint-mypy = "mypy src/backend tests"
-lint-vulture = "vulture src"
-lint = {composite = ["lint-bandit", "lint-black", "lint-djhtml", "lint-flake8", "lint-isort", "lint-mypy", "lint-vulture"]}
-test = "pytest tests/"
