@@ -16,6 +16,6 @@ def test_rate_limits() -> None:
         )
         if not exempt and endpoint not in IGNORED_ENDPOINTS:
             rate_limits = getattr(
-                app.view_function[endpoint], QUART_RATE_LIMITER_LIMITS_ATTRIBUTE, []
+                app.view_functions[endpoint], QUART_RATE_LIMITER_LIMITS_ATTRIBUTE, []
             )
             assert rate_limits != []

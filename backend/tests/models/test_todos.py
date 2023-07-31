@@ -1,6 +1,6 @@
 import pytest
 from quart_db import Connection
-from backend.src.backend.models.todos import (
+from backend.models.todos import (
     delete_todo,select_todo,update_todo,insert_todo
 )
 
@@ -17,7 +17,7 @@ async def test_delete_todo(connect:Connection,member_id:int,deleted:bool) -> Non
     assert (result is None) is deleted
 
 @pytest.mark.parametrize(
-    "member_id",completed,
+    "member_id,completed",
     [(1,True),(2,False)]
 )
 async def test_update_todo(connect:Connection,member_id:int,completed:bool) -> None:

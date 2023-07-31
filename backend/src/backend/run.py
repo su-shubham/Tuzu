@@ -83,5 +83,5 @@ def recreate_db() -> None:
 @app.get("/")
 @rate_exempt
 async def ping() -> ResponseReturnValue:
-    return {"ping": "po"}
+    return {"ping": "pong"}
 
