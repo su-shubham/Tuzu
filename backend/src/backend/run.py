@@ -80,8 +80,7 @@ def recreate_db() -> None:
     )
 
 
-@app.get("/")
-@rate_exempt
-async def ping() -> ResponseReturnValue:
-    return {"ping": "pong"}
+@app.get('/')
+async def main():
+    return {"hello":"pong"}
 

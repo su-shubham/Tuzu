@@ -48,9 +48,9 @@ async def insert_todo(
         member_id:int,
         connection:Connection
 ) -> Todo | None:
-    result = connection.fetch_one(
+    result = await connection.fetch_one(
         '''
-        INSERT INTO todos(task,complete,due,member_id) VALUES (task=:task,complete=:complete,due=:due,member_id=:member_id) 
+        INSERT INTO todos(task,complete,due,member_id) VALUES (:task,:complete,:due,:member_id) 
         RETURNING id,complete,due,task
         ''',
         {"task":task,"due":due,"member_id":member_id,"complete":complete},
@@ -65,7 +65,7 @@ async def update_todo(
         task:str,
         connection:Connection
 ) -> Todo | None:
-    result =connection.fetch_one(
+    result =await connection.fetch_one(
         '''
             UPDATE todos 
                 SET complete=:complete,due=:due,task=:task
@@ -89,7 +89,7 @@ async def delete_todo(
 ) ->None:
     await connection.execute(
         '''
-        DELETE FROM todos WHERE id=:id AND member_id:=member_id
+        DELETE FROM todos WHERE id=:id AND member_id=:member_id
         ''',
         {
             "member_id":member_id,

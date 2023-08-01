@@ -4,13 +4,13 @@ from quart_db import Connection
 from backend.models.members import insert_members,select_member_by_email
 
 async def test_insert_members(connection:Connection) ->None:
-    await insert_members(connection,"shubham@tozo.co","")
+    await insert_members("shubham@tozo.co","",connection)
     with pytest.raises(UniqueViolationError):
-        await insert_members(connection,"Shubham@toooz.co","")
+        await insert_members("Shubham@tozo.co","",connection)
 
 async def test_select_member_by_email(connection:Connection) ->None:
-    await insert_members(connection,"shubham@tozo.co","")
+    await insert_members("shubham@tozo.co","",connection)
     members = await select_member_by_email(
-        connection,"Shubham@tozo.co",
+        "Shubham@tozo.co",connection,
     )
     assert members is not None

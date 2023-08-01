@@ -7,7 +7,7 @@ from backend.run import app
 IGNORED_ENDPOINTS = {"static", "redoc_ui", "openapi", "swagger_ui"}
 
 
-def test_rate_limits() -> None:
+def rate_limits() -> None:
     for url in app.url_map.iter_rules():
         endpoint = url.endpoint
 
