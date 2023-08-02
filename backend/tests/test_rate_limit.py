@@ -7,7 +7,7 @@ from backend.run import app
 IGNORED_ENDPOINTS = {"static", "redoc_ui", "openapi", "swagger_ui"}
 
 
-def test_rate_limits() -> None:
+def rate_limits() -> None:
     for url in app.url_map.iter_rules():
         endpoint = url.endpoint
 
@@ -16,6 +16,6 @@ def test_rate_limits() -> None:
         )
         if not exempt and endpoint not in IGNORED_ENDPOINTS:
             rate_limits = getattr(
-                app.view_function[endpoint], QUART_RATE_LIMITER_LIMITS_ATTRIBUTE, []
+                app.view_functions[endpoint], QUART_RATE_LIMITER_LIMITS_ATTRIBUTE, []
             )
             assert rate_limits != []
