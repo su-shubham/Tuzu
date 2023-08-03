@@ -1,16 +1,18 @@
-import os
 import logging
+import os
 from subprocess import call
 from urllib.parse import urlparse
+
+from quart import Quart, ResponseReturnValue
 from quart_auth import QuartAuth
 from quart_db import QuartDB
-
-from quart_schema import QuartSchema
 from quart_rate_limiter import RateLimitExceeded, rate_exempt
+from quart_schema import QuartSchema, SchemaValidationError
+
 from backend.blueprints.control import blueprint as control_blueprint
+from backend.blueprints.members import blueprint as member_blueprint
+from backend.blueprints.session import blueprint as session_blueprint
 from backend.lib.api_error import APIError
-from quart import Quart, ResponseReturnValue
-from quart_schema import SchemaValidationError
 
 logging = logging.basicConfig(level=logging.INFO)
 
@@ -20,6 +22,8 @@ auth = QuartAuth(app)
 quart_db = QuartDB(app)
 QuartSchema(app)
 app.register_blueprint(control_blueprint)
+app.register_blueprint(session_blueprint)
+app.register_blueprint(member_blueprint)
 
 
 @app.errorhandler(APIError)  # type: ignores
@@ -80,7 +84,6 @@ def recreate_db() -> None:
     )
 
 
-@app.get('/')
+@app.get("/")
 async def main():
-    return {"hello":"pong"}
-
+    return {"hello": "pong"}
