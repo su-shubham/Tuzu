@@ -162,3 +162,11 @@ cython_debug/
 #.idea/
 .vscode/settings.json
 .vscode/
+*.pyc
+.ansible-vault 
+secrets.auto.tfvars
+terraform.tfstate 
+*.backup 
+.terraform.lock.hcl 
+.terraform/
+.idea

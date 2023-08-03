@@ -2,6 +2,7 @@ from quart_rate_limiter import (
     QUART_RATE_LIMITER_EXEMPT_ATTRIBUTE,
     QUART_RATE_LIMITER_LIMITS_ATTRIBUTE,
 )
+
 from backend.run import app
 
 IGNORED_ENDPOINTS = {"static", "redoc_ui", "openapi", "swagger_ui"}
