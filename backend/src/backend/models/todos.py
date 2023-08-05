@@ -14,9 +14,9 @@ class Todo:
 
 
 async def select_todos(
-    connection: Connection,
     member_id: int,
-    complete: bool | None = None,
+    complete: bool | None,
+    connection: Connection,
 ) -> list[Todo]:
     if complete is None:
         query = """

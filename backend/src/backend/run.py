@@ -1,6 +1,6 @@
 import logging
 import os
-from subprocess import call
+import subprocess
 from urllib.parse import urlparse
 
 from quart import Quart, ResponseReturnValue
@@ -12,6 +12,7 @@ from quart_schema import QuartSchema, SchemaValidationError
 from backend.blueprints.control import blueprint as control_blueprint
 from backend.blueprints.members import blueprint as member_blueprint
 from backend.blueprints.session import blueprint as session_blueprint
+from backend.blueprints.todos import blueprint as todo_blueprint
 from backend.lib.api_error import APIError
 
 logging = logging.basicConfig(level=logging.INFO)
@@ -24,16 +25,17 @@ QuartSchema(app)
 app.register_blueprint(control_blueprint)
 app.register_blueprint(session_blueprint)
 app.register_blueprint(member_blueprint)
+app.register_blueprint(todo_blueprint)
 
 
 @app.errorhandler(APIError)  # type: ignores
 async def handle_api_error(e: APIError) -> ResponseReturnValue:
-    return {"message": e.message}, e.status_code
+    return {"message": e.code}, e.status_code
 
 
-@app.errorhandler(Exception)
-async def handle_generic_error(e: Exception) -> ResponseReturnValue:
-    return {"code": "INTERNAL SERVER ERROR"}, 500
+# @app.errorhandler(Exception)
+# async def handle_generic_error(e: Exception) -> ResponseReturnValue:
+#     return {"code": "INTERNAL SERVER ERROR"}, 500
 
 
 @app.errorhandler(RateLimitExceeded)
@@ -52,35 +54,52 @@ async def handle_schema_validation(e: SchemaValidationError) -> SchemaValidation
 @app.cli.command("recreate_db")
 def recreate_db() -> None:
     db_url = urlparse(os.environ["TOZO_QUART_DB_DATABASE_URL"])
-    call(  # nosec
+    psql_path = (
+        r"C:\Program Files\PostgreSQL\15\bin\psql.exe"  # Use the correct path to psql
+    )
+
+    subprocess.run(
         [
-            "psql",
+            psql_path,
             "-U",
             "postgres",
             "-c",
             f"DROP DATABASE IF EXISTS {db_url.path.removeprefix('/')}",
         ],
+        shell=True,
     )
-    call(  # nosec
-        ["psql", "-U", "postgres", "-c", f"DROP USER IF EXISTS {db_url.username}"],
-    )
-    call(  # nosec
+
+    subprocess.run(
         [
-            "psql",
+            psql_path,
+            "-U",
+            "postgres",
+            "-c",
+            f"DROP USER IF EXISTS {db_url.username}",
+        ],
+        shell=True,
+    )
+
+    subprocess.run(
+        [
+            psql_path,
             "-U",
             "postgres",
             "-c",
             f"CREATE USER {db_url.username} LOGIN PASSWORD '{db_url.password}' CREATEDB",
         ],
+        shell=True,
     )
-    call(  # nosec
+
+    subprocess.run(
         [
-            "psql",
+            psql_path,
             "-U",
             "postgres",
             "-c",
             f"CREATE DATABASE {db_url.path.removeprefix('/')}",
         ],
+        shell=True,
     )
 
 

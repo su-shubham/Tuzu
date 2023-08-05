@@ -6,7 +6,7 @@ import asyncpg
 import bcrypt
 import zxcvbn
 from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
-from pydantic import EmailStr
+from pydantic import EmailStr, SecretStr
 from quart import Blueprint, ResponseReturnValue, current_app, g
 from quart_auth import current_user, login_required
 from quart_rate_limiter import rate_limit
@@ -34,18 +34,20 @@ MAX_RESET_PERIOD = int(timedelta(hours=24).total_seconds())
 @dataclass
 class MemberData:
     email: str
-    password: str
+    password: SecretStr
 
 
-@blueprint.post("/members/")
-@rate_limit(10, timedelta(seconds=10))
+@blueprint.post("/members/register/")
+# @rate_limit(10, timedelta(seconds=10))
 @validate_request(MemberData)
 async def register_user(data: MemberData) -> ResponseReturnValue:
-    strength = zxcvbn(data.password)
-    if strength["score"] < MINIMUM_STRENGTH:
-        raise APIError(400, "Weak Password")
+    # strength = zxcvbn(data.password.get_secret_value())
+    # if strength["score"] < MINIMUM_STRENGTH:
+    #     raise APIError(400, "Weak Password")
 
-    hashed_password = bcrypt.hashpw(data.password.encode("utf-8"), bcrypt.gensalt(14))
+    hashed_password = bcrypt.hashpw(
+        data.password.get_secret_value().encode("utf-8"), bcrypt.gensalt(14)
+    )
 
     try:
         member = await insert_members(

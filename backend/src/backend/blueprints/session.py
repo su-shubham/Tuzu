@@ -46,7 +46,7 @@ async def login_user(data: LoginData) -> ResponseReturnValue:
 
 @blueprint.delete("/session/")
 @rate_exempt
-async def logout_user() -> ResponseReturnValue:
+async def logout() -> ResponseReturnValue:
     logout_user()
     return {}
 
@@ -55,6 +55,6 @@ async def logout_user() -> ResponseReturnValue:
 @rate_limit(10, timedelta(minutes=1))
 @login_required
 @validate_response(Status)
-async def status(Status) -> ResponseReturnValue:
+async def status() -> ResponseReturnValue:
     assert current_user.auth_id is not None  # nosec
     return Status(member_id=int(current_user.auth_id))
