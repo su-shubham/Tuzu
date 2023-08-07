@@ -6,14 +6,15 @@ from urllib.parse import urlparse
 from quart import Quart, ResponseReturnValue
 from quart_auth import AuthManager
 from quart_db import QuartDB
-from quart_rate_limiter import RateLimitExceeded, rate_exempt
+from quart_rate_limiter import RateLimitExceeded
 from quart_schema import QuartSchema, SchemaValidationError
 
 from backend.blueprints.control import blueprint as control_blueprint
 from backend.blueprints.members import blueprint as member_blueprint
 from backend.blueprints.session import blueprint as session_blueprint
 from backend.blueprints.todos import blueprint as todo_blueprint
-from backend.lib.api_error import APIError
+
+# from backend.lib.api_error import APIError
 
 logging = logging.basicConfig(level=logging.INFO)
 
@@ -89,7 +90,7 @@ def recreate_db() -> None:
             f"CREATE USER {db_url.username} LOGIN PASSWORD '{db_url.password}' CREATEDB",
         ],
         shell=True,  # nosec
-    )
+    )  # noqa: E501
 
     subprocess.run(
         [

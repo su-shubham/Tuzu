@@ -5,7 +5,13 @@ import bcrypt
 from pydantic import EmailStr
 from quart import ResponseReturnValue, g
 from quart.blueprints import Blueprint
-from quart_auth import AuthUser, current_user, login_required, login_user, logout_user
+from quart_auth import (  # noqa: E501
+    AuthUser,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
 from quart_rate_limiter import rate_exempt, rate_limit
 from quart_schema import validate_request, validate_response
 
@@ -30,7 +36,7 @@ class Status:
 @blueprint.post("/session/")
 @rate_limit(5, timedelta(minutes=1))
 @validate_request(LoginData)
-async def login_user(data: LoginData) -> ResponseReturnValue:
+async def login_users(data: LoginData) -> ResponseReturnValue:
     result = await select_member_by_email(data.email, g.connection)
     if result is None:
         raise APIError(401, "INVALID CREDENTIALS")

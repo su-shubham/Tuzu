@@ -10,23 +10,25 @@ async def migrate(connection: Connection) -> None:
                 email TEXT NOT NULL,
                 email_verified TIMESTAMP,
                 password_hash TEXT NOT NULL
-            )"""
+            )
+        """
     )
     await connection.execute(
         """
-            CREATE UNIQUE INDEX members_unique_email_idx on members(LOWER(email));
-                             """
+            CREATE UNIQUE INDEX members_unique_email_idx on members(LOWER(email))
+        """  # noqa: E501
     )
 
     await connection.execute(
         """
-                CREATE TABLE todos(
+            CREATE TABLE todos(
                 id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
                 complete BOOLEAN NOT NULL DEFAULT FALSE,
                 due TIMESTAMPTZ,
                 member_id INT NOT NULL REFERENCES members(id),
-                task TEXT NOT NULL  
-            )"""
+                task TEXT NOT NULL
+            )
+            """,
     )
 
 

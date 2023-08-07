@@ -119,8 +119,12 @@ async def update_password(data: PasswordData) -> ResponseReturnValue:
     hashed_password = bcrypt.hashpw(
         data.new_password.encode("utf-8"), bcrypt.gensalt(14)
     )
-    await update_member_password(member_id, hashed_password.decode(), g.connection)
-    await send_email(member.email, "Password Changed", "password_change.html", {})
+    await update_member_password(
+        member_id, hashed_password.decode(), g.connection
+    )  # noqa: E501
+    await send_email(
+        member.email, "Password Changed", "password_change.html", {}
+    )  # noqa: E501
     return {}
 
 
@@ -140,7 +144,10 @@ async def forgot_password(data: ForgotPasswordData) -> ResponseReturnValue:
         )
         token = serializer.dumps(member.id)
         await send_email(
-            member.email, "Forgot Password", "forgot_password.html", {"token": token}
+            member.email,
+            "Forgot Password",
+            "forgot_password.html",
+            {"token": token},  # noqa: E501
         )
     return {}
 
@@ -155,7 +162,9 @@ class ResetPasswordData:
 @validate_request(ResetPasswordData)
 @rate_limit(5, timedelta(minutes=1))
 async def reset_password(data: ResetPasswordData) -> ResponseReturnValue:
-    serializer = URLSafeTimedSerializer(current_app.secret_key, salt=FORGOTTEN_PASSWORD)
+    serializer = URLSafeTimedSerializer(
+        current_app.secret_key, salt=FORGOTTEN_PASSWORD
+    )  # noqa: E501
     try:
         member_id = serializer.loads(data.token, max_age=MAX_RESET_PERIOD)
     except BadSignature:
@@ -167,8 +176,12 @@ async def reset_password(data: ResetPasswordData) -> ResponseReturnValue:
         hashed_password = bcrypt.hashpw(
             data.password.encode("utf-8"), bcrypt.gensalt(14)
         )
-        await update_member_password(member_id, hashed_password.decode(), g.connection)
-        member = select_member_by_id(int(cast(str, current_user.auth_id)), g.connection)
+        await update_member_password(
+            member_id, hashed_password.decode(), g.connection
+        )  # noqa: E501
+        member = select_member_by_id(
+            int(cast(str, current_user.auth_id)), g.connection
+        )  # noqa: E501
         assert member is not None  # nosec
         await send_email(
             member.email,

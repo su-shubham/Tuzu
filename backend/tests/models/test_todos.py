@@ -1,7 +1,12 @@
 import pytest
 from quart_db import Connection
 
-from backend.models.todos import delete_todo, insert_todo, select_todo, update_todo
+from backend.models.todos import (  # noqa: E501
+    delete_todo,
+    insert_todo,
+    select_todo,
+    update_todo,
+)
 
 
 @pytest.mark.parametrize("member_id,deleted", [(1, True), (2, False)])

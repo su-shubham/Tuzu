@@ -61,10 +61,6 @@ target-version = ["py310"]
 [tool.isort]
 profile = "black"
 
-[flake8]
-max-line-length = 88
-
-
 [tool.vulture]
 min_confidence = 100
 

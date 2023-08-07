@@ -19,14 +19,11 @@ async def select_todos(
     connection: Connection,
 ) -> list[Todo]:
     if complete is None:
-        query = """
-                SELECT id,complete,due,task FROM todos WHERE member_id=:member_id    
-                """
+        query = """SELECT id,complete,due,task FROM todos WHERE member_id=:member_id"""  # noqa: E501
         values = {"member_id": member_id}
     else:
-        query = """
-                SELECT id,complete,due,task from todos WHERE member_id=:member_id AND complete=:complete 
-                """
+        query = """SELECT id,complete,due,task from todos WHERE member_id=:member_id AND complete=:complete"""
+        # noqa: E501
         values = {"member_id": member_id, "complete": complete}
     return [Todo(**row) async for row in connection.iterate(query, values)]
 
@@ -40,6 +37,7 @@ async def select_todo(
         """
         SELECT id,complete,due,task FROM todos WHERE id=:id AND member_id=:member_id
         """,
+        # noqa: E501
         values={"member_id": member_id, "id": id},
     )
     return None if result is None else Todo(**result)
@@ -53,10 +51,8 @@ async def insert_todo(
     connection: Connection,
 ) -> Todo | None:
     result = await connection.fetch_one(
-        """
-        INSERT INTO todos(task,complete,due,member_id) VALUES (:task,:complete,:due,:member_id) 
-        RETURNING id,complete,due,task
-        """,
+        """INSERT INTO todos(task,complete,due,member_id) VALUES (:task,:complete,:due,:member_id) RETURNING id,complete,due,task""",
+        # noqa: E501
         {"task": task, "due": due, "member_id": member_id, "complete": complete},
     )
     return Todo(**result)
@@ -71,12 +67,8 @@ async def update_todo(
     connection: Connection,
 ) -> Todo | None:
     result = await connection.fetch_one(
-        """
-            UPDATE todos 
-                SET complete=:complete,due=:due,task=:task
-            WHERE id=:id AND member_id=:member_id
-            RETURNING id,complete,task,due
-            """,
+        """UPDATE todos SET complete=:complete,due=:due,task=:task WHERE id=:id AND member_id=:member_id
+        RETURNING id,complete,task,due""",  # noqa: E501
         {
             "id": id,
             "complete": complete,
