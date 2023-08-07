@@ -8,31 +8,31 @@ import { useState } from "react";
 import { combineHelperText } from "src/utils";
 
 const PasswordField = (props: FieldHookConfig<string> & TextFieldProps) => {
-    const [field, meta] = useField<string>(props);
-    const [showPassword, setShowPassword] = useState(false);
+  const [field, meta] = useField<string>(props);
+  const [showPassword, setShowPassword] = useState(false);
 
-    return (
-        <TextField
-            {...props}
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end">
-                        <IconButton
-                            onClick={() => setShowPassword((value) => !value)}
-                            tabIndex={-1}
-                        >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                    </InputAdornment>
-                ),
-            }}
-            error={Boolean(meta.error) && meta.touched}
-            helperText={combineHelperText(props.helperText, meta)}
-            margin="normal"
-            type={showPassword ? "text" : "password"}
-            {...field}
-        />
-    );
+  return (
+    <TextField
+      {...props}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              onClick={() => setShowPassword((value) => !value)}
+              tabIndex={-1}
+            >
+              {showPassword ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+      error={Boolean(meta.error) && meta.touched}
+      helperText={combineHelperText(props.helperText, meta)}
+      margin="normal"
+      type={showPassword ? "text" : "password"}
+      {...field}
+    />
+  );
 };
 
 export default PasswordField;

@@ -3,13 +3,13 @@ import { lazy, Suspense } from "react";
 import { FieldHookConfig } from "formik";
 import PasswordField from "src/components/PasswordField";
 const PasswordWithStrengthField = lazy(
-    () => import("src/components/PasswordStrength"),
+  () => import("src/components/PasswordStrength"),
 );
 const LazyPasswordWithStrengthField = (
-    props: FieldHookConfig<string> & TextFieldProps,
+  props: FieldHookConfig<string> & TextFieldProps,
 ) => (
-    <Suspense fallback={<PasswordField {...props} />}>
-        <PasswordWithStrengthField {...props} />
-    </Suspense>
+  <Suspense fallback={<PasswordField {...props} />}>
+    <PasswordWithStrengthField {...props} />
+  </Suspense>
 );
 export default LazyPasswordWithStrengthField;

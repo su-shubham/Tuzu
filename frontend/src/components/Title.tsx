@@ -2,18 +2,18 @@ import { Typography } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 
 interface IProps {
-    title: string;
+  title: string;
 }
 
 const Title = ({ title }: IProps) => (
-    <>
-        <Helmet>
-            <title>Tozo | {title}</title>
-        </Helmet>
-        <Typography component="h1" variant="h5">
-            {title}
-        </Typography>
-    </>
-)
+  <>
+    <Helmet>
+      <title>Tozo | {title}</title>
+    </Helmet>
+    <Typography component="h1" variant="h5">
+      {title}
+    </Typography>
+  </>
+);
 
 export default Title;

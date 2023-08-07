@@ -30,24 +30,19 @@ const useRegister = () => {
       addToast("Registered", "success");
       navigate("/login/", { state: { email: data.email } });
     } catch (error: any) {
-      if (
-        error.response?.status === 409 
-      ) {
-        addToast("Already registered", "warning")
-      }
-      else if (
+      if (error.response?.status === 409) {
+        addToast("Already registered", "warning");
+      } else if (
         error.response?.status === 400 &&
         error.response?.data.code === "WEAK_PASSWORD"
       ) {
         setFieldError("password", "Password is too weak");
-      }
-      else if (
+      } else if (
         error.response?.status === 400 &&
         error.response?.data.code === "INVALID_DOMAIN"
       ) {
         setFieldError("email", "Invalid email domain");
-      }
-      else {
+      } else {
         addToast("Try again", "error");
       }
     }

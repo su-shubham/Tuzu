@@ -7,26 +7,26 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "src/AuthContext";
 import AccountMenu from "src/components/AccountMenu";
 const sxToolbar = {
-    paddingLeft: "env(safe-area-inset-left)",
-    paddingRight: "env(safe-area-inset-right)",
-    paddingTop: "env(safe-area-inset-top)",
-}
+  paddingLeft: "env(safe-area-inset-left)",
+  paddingRight: "env(safe-area-inset-right)",
+  paddingTop: "env(safe-area-inset-top)",
+};
 const TopBar = () => {
-    const { authenticated } = useContext(AuthContext);
-    return (
-        <>
-            <AppBar position="fixed">
-                <Toolbar sx={sxToolbar}>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Button color="inherit" component={Link} to="/">
-                            Tozo
-                        </Button>
-                    </Box>
-                    {authenticated ? <AccountMenu /> : null}
-                </Toolbar>
-            </AppBar>
-            <Toolbar sx={{ ...sxToolbar, marginBottom: 2 }} />
-        </>
-    );
+  const { authenticated } = useContext(AuthContext);
+  return (
+    <>
+      <AppBar position="fixed">
+        <Toolbar sx={sxToolbar}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Button color="inherit" component={Link} to="/">
+              Tozo
+            </Button>
+          </Box>
+          {authenticated ? <AccountMenu /> : null}
+        </Toolbar>
+      </AppBar>
+      <Toolbar sx={{ ...sxToolbar, marginBottom: 2 }} />
+    </>
+  );
 };
 export default TopBar;

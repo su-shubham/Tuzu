@@ -2,14 +2,17 @@ import { useMemo } from "react";
 import { PaletteMode } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import {
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material/styles";
 
 interface IProps {
   children: React.ReactNode;
 }
 
 const ThemeProvider = ({ children }: IProps) => {
-  const darkMode = useMediaQuery("(prefers-color-scheme:dark)")
+  const darkMode = useMediaQuery("(prefers-color-scheme:dark)");
   const theme = useMemo(() => {
     const palette = {
       mode: (darkMode ? "dark" : "light") as PaletteMode,
@@ -21,7 +24,7 @@ const ThemeProvider = ({ children }: IProps) => {
       <CssBaseline enableColorScheme />
       {children}
     </MuiThemeProvider>
-  )
-}
+  );
+};
 
 export default ThemeProvider;
