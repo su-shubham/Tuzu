@@ -6,7 +6,6 @@ authors = [
     {name = "Shubham", email = "code.shubham.com@gmail.com"},
 ]
 dependencies = [
-    "quart-auth>=0.9.0",
     "bcrypt>=4.0.1",
     "zxcvbn>=4.4.28",
     "itsdangerous>=2.1.2",
@@ -16,6 +15,7 @@ dependencies = [
     "pydantic[email]==1.10.11",
     "httpx>=0.24.1",
     "quart>=0.18.4",
+    "quart-auth==0.7.0",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

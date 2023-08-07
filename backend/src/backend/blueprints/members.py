@@ -38,7 +38,7 @@ class MemberData:
 
 
 @blueprint.post("/members/register/")
-# @rate_limit(10, timedelta(seconds=10))
+@rate_limit(10, timedelta(seconds=10))
 @validate_request(MemberData)
 async def register_user(data: MemberData) -> ResponseReturnValue:
     # strength = zxcvbn(data.password.get_secret_value())
@@ -54,7 +54,7 @@ async def register_user(data: MemberData) -> ResponseReturnValue:
             data.email, hashed_password.decode(), g.connection
         )
     except asyncpg.exceptions.UniqueViolationError:
-        pass
+        return {}, 409
     else:
         serializer = URLSafeTimedSerializer(
             current_app.secret_key, EMAIL_VERIFICATION_SALT

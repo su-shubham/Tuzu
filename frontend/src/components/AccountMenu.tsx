@@ -15,7 +15,7 @@ const useLogout = () => {
     const { setAuthenticated } = useContext(AuthContext);
     const queryClient = useQueryClient();
     const { mutate: logout } = useMutation(
-        async () => await axios.delete("/sessions/"),
+        async () => await axios.delete("/session/"),
         {
             onSuccess: () => {
                 setAuthenticated(false);

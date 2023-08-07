@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const ThemeProvider = ({ children }: IProps) => {
-  const darkMode = useMediaQuery("(prefers-color-scheme:light)")
+  const darkMode = useMediaQuery("(prefers-color-scheme:dark)")
   const theme = useMemo(() => {
     const palette = {
       mode: (darkMode ? "dark" : "light") as PaletteMode,

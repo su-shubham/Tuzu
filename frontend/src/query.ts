@@ -1,22 +1,22 @@
 import axios, { AxiosError } from "axios";
 import { useContext } from "react";
 import {
-    QueryFunctionContext,
-    QueryFunction,
-    QueryKey,
-    useQuery as useReactQuery,
-    UseQueryOptions,
-    UseQueryResult,
     MutationFunction,
+    QueryFunction,
+    QueryFunctionContext,
+    QueryKey,
     useMutation as useReactMutation,
     UseMutationOptions,
     UseMutationResult,
+    useQuery as useReactQuery,
+    UseQueryOptions,
+    UseQueryResult,
 } from "@tanstack/react-query";
+
 import { AuthContext } from "src/AuthContext";
 
 const MAX_FAILURES = 2;
 
-// Fetch API Response
 export function useQuery<
     TQueryFnData = unknown,
     TData = TQueryFnData,
@@ -49,8 +49,6 @@ export function useQuery<
     );
 }
 
-
-// Send Data to Backend
 export function useMutation<
     TData = unknown,
     TVariables = void,

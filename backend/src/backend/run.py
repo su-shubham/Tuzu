@@ -4,7 +4,7 @@ import subprocess
 from urllib.parse import urlparse
 
 from quart import Quart, ResponseReturnValue
-from quart_auth import QuartAuth
+from quart_auth import AuthManager
 from quart_db import QuartDB
 from quart_rate_limiter import RateLimitExceeded, rate_exempt
 from quart_schema import QuartSchema, SchemaValidationError
@@ -19,7 +19,7 @@ logging = logging.basicConfig(level=logging.INFO)
 
 app = Quart(__name__)
 app.config.from_prefixed_env(prefix="TOZO")
-auth = QuartAuth(app)
+auth_manager = AuthManager(app)
 quart_db = QuartDB(app)
 QuartSchema(app)
 app.register_blueprint(control_blueprint)
@@ -28,9 +28,9 @@ app.register_blueprint(member_blueprint)
 app.register_blueprint(todo_blueprint)
 
 
-@app.errorhandler(APIError)  # type: ignores
-async def handle_api_error(e: APIError) -> ResponseReturnValue:
-    return {"message": e.code}, e.status_code
+# @app.errorhandler(APIError)  # type: ignores
+# async def handle_api_error(e: APIError) -> ResponseReturnValue:
+#     return {"message": e.code}, e.status_code
 
 
 # @app.errorhandler(Exception)
