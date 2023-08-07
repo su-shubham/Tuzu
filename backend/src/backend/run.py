@@ -1,6 +1,6 @@
 import logging
 import os
-import subprocess
+import subprocess  # nosec
 from urllib.parse import urlparse
 
 from quart import Quart, ResponseReturnValue
@@ -66,7 +66,7 @@ def recreate_db() -> None:
             "-c",
             f"DROP DATABASE IF EXISTS {db_url.path.removeprefix('/')}",
         ],
-        shell=True,
+        shell=True,  # nosec
     )
 
     subprocess.run(
@@ -77,7 +77,7 @@ def recreate_db() -> None:
             "-c",
             f"DROP USER IF EXISTS {db_url.username}",
         ],
-        shell=True,
+        shell=True,  # nosec
     )
 
     subprocess.run(
@@ -88,7 +88,7 @@ def recreate_db() -> None:
             "-c",
             f"CREATE USER {db_url.username} LOGIN PASSWORD '{db_url.password}' CREATEDB",
         ],
-        shell=True,
+        shell=True,  # nosec
     )
 
     subprocess.run(
@@ -99,7 +99,7 @@ def recreate_db() -> None:
             "-c",
             f"CREATE DATABASE {db_url.path.removeprefix('/')}",
         ],
-        shell=True,
+        shell=True,  # nosec
     )
 
 

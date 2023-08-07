@@ -108,7 +108,7 @@ async def update_password(data: PasswordData) -> ResponseReturnValue:
         raise APIError(400, "WEAK PASSWORD")
     member_id = int(cast(str, current_user.auth_id))
     member = await select_member_by_id(member_id, g.connection)
-    assert member is not None
+    assert member is not None  # nosec
     password_match = bcrypt.checkpw(
         data.new_password.encode("utf-8"),
         data.old_password.encode("utf-8"),
