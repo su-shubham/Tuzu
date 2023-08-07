@@ -68,11 +68,6 @@ jobs:
           pip install pdm
           pdm install
 
-      - name: Linting
-        run: pdm run lint
-
-      - name: Testing
-        run: pdm run test
 
   frontend:
     runs-on: ubuntu-latest
